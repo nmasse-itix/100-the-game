@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<script data-dojo-config="async: 1"
+            src="//ajax.googleapis.com/ajax/libs/dojo/1.10.10/dojo/dojo.js"></script>
+<link rel="stylesheet" type="text/css" href="theme.css">
+<title>100</title>
+<script type="text/javascript" src="core.js"></script>
+<script type="text/javascript">
+var gameModel = null;
+var gameBoard = null;
+var gameController = null;
+
+function newgame() {
+    gameModel.startNewGame();
+}
+
+var currentVertex = null;
+var gameState = [];
+var savedXmax = 5;
+var savedYmax = 5;
+function load() {
+    var xmax = gameModel.getGameWidth();
+    var ymax = gameModel.getGameHeight();
+    if (xmax != savedXmax || ymax != savedYmax) {
+        gameModel.setGameParameters(savedXmax, savedYmax);
+    }
+    gameModel.setGameState(currentVertex, gameState);
+}
+    
+var displayPossibleCells = true;
+function toggledisplay() {
+    gameBoard.setDisplayPossibleCells(! displayPossibleCells);
+    gameController.gameStateChanged();
+    displayPossibleCells = !displayPossibleCells;
+}
+
+function undo() {
+    gameModel.undo();
+}
+
+function setgame(x, y) {
+    gameModel.setGameParameters(x, y);
+    gameModel.startNewGame();
+}
+
+function save() {
+    currentVertex = gameModel.getCurrentVertex();
+    gameState = gameModel.getGameState();
+    savedXmax = gameModel.getGameWidth();
+    savedYmax = gameModel.getGameHeight();
+}
+
+require(["dojo/ready", "dojo" ], 
+    function(ready, dojo) {
+        ready(function () {
+            var boardNode = dojo.byId("gameboard-placeholder");
+            gameBoard = new fenouiltonic.game100.gameboard(boardNode);
+
+            var infoNode = dojo.byId("gameinfo-placeholder");
+            var infoView = new fenouiltonic.game100.infoview(infoNode);
+            infoView.createDOM();
+
+            gameController = new fenouiltonic.game100.gamecontroller();
+            gameModel = new fenouiltonic.game100.gamemodel();
+            gameModel.setController(gameController);
+            gameController.setModel(gameModel);
+            gameController.setBoard(gameBoard);
+            gameController.setInfoView(infoView);
+            gameBoard.setController(gameController);
+            gameBoard.setModel(gameModel);
+            gameBoard.setDisplayPossibleCells(true);
+            
+            var xmax = 5;
+            var ymax = 5;
+            gameModel.setGameParameters(xmax, ymax);
+            gameModel.startNewGame();
+        });
+    }
+);
+</script>
+</head>
+<body>
+<table>
+<tr>
+<td style="width: 300px">
+    <img src="logo.svg" width="300">
+    <div id="gameinfo-placeholder"></div>
+    <div id="gameboard-placeholder"></div>
+</td>
+<td>
+    <input type="submit" onClick="setgame(5, 5)" value="5x5"><br/>
+    <input type="submit" onClick="setgame(6, 6)" value="6x6"><br/>
+    <input type="submit" onClick="setgame(7, 7)" value="7x7"><br/>
+    <input type="submit" onClick="setgame(8, 8)" value="8x8"><br/>
+    <input type="submit" onClick="setgame(9, 9)" value="9x9"><br/>
+    <input type="submit" onClick="setgame(10, 10)" value="10x10"><br/>
+    <input type="submit" onClick="newgame()" value="newgame"><br/>
+    <input type="submit" onClick="load()" value="load"><br/>
+    <input type="submit" onClick="save()" value="save"><br/>
+    <input type="submit" onClick="undo()" value="undo"><br/>
+    <label><input type="checkbox" onChange="toggledisplay()" checked="1" value="display possible moves">display possible moves</label>
+</td>
+</tr>
+</table>
+</body>
+</html>
+

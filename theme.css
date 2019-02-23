@@ -1,0 +1,69 @@
+table.game-board td.even-cell {
+  background-color: rgb(6, 42, 58);
+}
+
+table.game-board td.odd-cell {
+  background-color: rgb(6, 42, 58);
+}
+
+table.game-board td.odd-cell.used-cell, table.game-board td.even-cell.used-cell {
+  background-color: rgb(127, 71, 221);
+}
+
+table.game-board td.odd-cell.possible-cell, table.game-board td.even-cell.possible-cell {
+  background-color: rgb(140, 198, 63);
+}
+
+table.game-board td.odd-cell.impossible-cell, table.game-board td.even-cell.impossible-cell {
+}
+
+table.game-board td.odd-cell.active-cell, table.game-board td.even-cell.active-cell {
+  background-color: rgb(0, 169, 157);
+}
+
+table.game-board td.head-col, table.game-board td.head-row, table.game-board td.top-left {
+    display: none;
+}
+
+#message {
+    width: 80%;
+}
+
+#clock {
+    width: 20%;
+    padding: 10px;
+}
+
+body {
+  font-family: "Bauhaus 93",Arial,Helvetica,sans-serif;
+  background-color: rgb(0, 27, 39);
+  text-align: center;
+  color: white;
+}
+
+.logo {
+    width: 80%;
+}
+
+table.game-info, table.game-board {
+  border: 1px solid rgb(0, 27, 39);
+  table-layout: fixed;
+  width: 100%;
+}
+
+table td {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.game-board td {
+  width: 10%;
+  height: 10%;
+}
+
+table.game-info td {
+    background-color: rgb(6, 42, 58);
+}
+
